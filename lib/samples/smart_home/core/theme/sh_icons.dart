@@ -27,4 +27,6 @@ abstract class SHIcons {
   static const IconData help = CupertinoIcons.question_circle;
   static const IconData logout = CupertinoIcons.arrow_right_circle;
   static const IconData user = CupertinoIcons.person;
+  static const IconData monoxide = CupertinoIcons.exclamationmark_triangle;
+  static const IconData voltage = CupertinoIcons.bolt;
 }

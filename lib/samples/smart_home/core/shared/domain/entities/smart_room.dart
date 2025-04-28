@@ -12,6 +12,9 @@ class SmartRoom {
     required this.airCondition,
     required this.timer,
     required this.musicInfo,
+    required this.monoxido,
+    required this.voltage,
+    // required this.isOn,
   });
 
   final String id;
@@ -19,6 +22,8 @@ class SmartRoom {
   final String imageUrl;
   final double temperature;
   final double airHumidity;
+  final double monoxido;
+  final double voltage;
   final SmartDevice lights;
   final SmartDevice airCondition;
   final SmartDevice timer;
@@ -30,6 +35,8 @@ class SmartRoom {
     String? imageUrl,
     double? temperature,
     double? airHumidity,
+    double? monoxido,
+    double? voltage,
     SmartDevice? lights,
     SmartDevice? airCondition,
     SmartDevice? timer,
@@ -40,6 +47,8 @@ class SmartRoom {
     imageUrl: imageUrl ?? this.imageUrl,
     temperature: temperature ?? this.temperature,
     airHumidity: airHumidity ?? this.airHumidity,
+    monoxido: monoxido ?? this.monoxido,
+    voltage: voltage ?? this.voltage,
     lights: lights ?? this.lights,
     airCondition: airCondition ?? this.airCondition,
     musicInfo: musicInfo ?? this.musicInfo,
@@ -49,9 +58,9 @@ class SmartRoom {
   static List<SmartRoom> fakeValues = [
     _room,
     _room.copyWith(id: '4', name: 'BEDROOM', imageUrl: _imagesUrls[4]),
-    _room.copyWith(id: '2', name: 'DINING ROOM', imageUrl: _imagesUrls[2]),
+    //_room.copyWith(id: '2', name: 'DINING ROOM', imageUrl: _imagesUrls[2]),
     _room.copyWith(id: '3', name: 'KITCHEN', imageUrl: _imagesUrls[3]),
-    _room.copyWith(id: '5', name: 'BATHROOM', imageUrl: _imagesUrls[1]),
+    //_room.copyWith(id: '5', name: 'BATHROOM', imageUrl: _imagesUrls[1]),
   ];
 }
 
@@ -61,6 +70,8 @@ final _room = SmartRoom(
   imageUrl: _imagesUrls[0],
   temperature: 12,
   airHumidity: 23,
+  monoxido: 1,
+  voltage: 120,
   lights: SmartDevice(isOn: true, value: 20),
   timer: SmartDevice(isOn: false, value: 20),
   airCondition: SmartDevice(isOn: false, value: 10),

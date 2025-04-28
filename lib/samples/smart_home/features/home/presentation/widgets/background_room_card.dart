@@ -32,24 +32,72 @@ class BackgroundRoomCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
+
+          //Ni modo me aburrí asi que haré esto de con if, a que se me esta empezando
+          //cansar el cerebro de tanto jugar lol
           children: [
-            _RoomInfoRow(
-              icon: const Icon(SHIcons.thermostat),
-              label: const Text('Temperature'),
-              data: '${room.temperature}°',
-            ),
-            height4,
-            _RoomInfoRow(
-              icon: const Icon(SHIcons.waterDrop),
-              label: const Text('Air Humidity'),
-              data: '${room.airHumidity}%',
-            ),
-            height4,
-            const _RoomInfoRow(
-              icon: Icon(SHIcons.timer),
-              label: Text('Timer'),
-              data: null,
-            ),
+            if (room.id == '1') ...[
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.thermostat),
+                label: const Text('Temperature'),
+                data: '${room.temperature.toStringAsFixed(2)}°C',
+              ),
+              height4,
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.waterDrop),
+                label: const Text('Air Humidity'),
+                data: '${room.airHumidity.toStringAsFixed(2)}%',
+              ),
+              height4,
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.voltage),
+                label: const Text('Voltage'),
+                data: '${room.voltage.toStringAsFixed(2)}V',
+              ),
+            ] else if (room.id == '2') ...[
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.waterDrop),
+                label: const Text('Air Humidity'),
+                data: '${room.airHumidity.toStringAsFixed(2)}%',
+              ),
+            ] else if (room.id == '3') ...[
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.thermostat),
+                label: const Text('Temperature'),
+                data: '${(room.temperature + 0.5).toStringAsFixed(2)}°C',
+              ),
+              height4,
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.waterDrop),
+                label: const Text('Air Humidity'),
+                data: '${room.airHumidity.toStringAsFixed(2)}%',
+              ),
+              height4,
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.monoxide),
+                label: const Text('Air Monoxide'),
+                data: '${room.monoxido.toStringAsFixed(4)}%',
+              ),
+            ] else if (room.id == '4') ...[
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.thermostat),
+                label: const Text('Temperature'),
+                data: '${(room.temperature - 0.35).toStringAsFixed(2)}°C',
+              ),
+              height4,
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.waterDrop),
+                label: const Text('Air Humidity'),
+                data: '${(room.airHumidity + 0.1).toStringAsFixed(2)}%',
+              ),
+            ] else if (room.id == '5') ...[
+              _RoomInfoRow(
+                icon: const Icon(SHIcons.waterDrop),
+                label: const Text('Air Humidity'),
+                data: '${room.airHumidity.toStringAsFixed(2)}%',
+              ),
+            ],
+
             height12,
             const SHDivider(),
             Padding(
@@ -104,7 +152,7 @@ class _DeviceIconSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = value ? SHColors.selectedColor : SHColors.textColor;
-    print(value);
+    //print(value);
     return InkWell(
       onTap: () => onTap(!value),
       child: Column(

@@ -84,7 +84,12 @@ class _SmartRoomsPageViewState extends State<SmartRoomsPageView> {
                   airHumidity:
                       (_data['humidity'] as num?)?.toDouble() ??
                       room.airHumidity,
-
+                  monoxido:
+                      (_data['monoxide_sensor'] as num?)?.toDouble() ??
+                      room.monoxido,
+                  voltage:
+                      (_data['voltage_sensor'] as num?)?.toDouble() ??
+                      room.voltage,
                   imageUrl: room.imageUrl,
                 );
 
