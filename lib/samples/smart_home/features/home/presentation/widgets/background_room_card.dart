@@ -58,7 +58,10 @@ class BackgroundRoomCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _DeviceIconSwitcher(
-                    onTap: (value) {},
+                    //Aca aagregar la funcion para alternar el estado
+                    onTap: (value) {
+                      print("Lights: $value");
+                    },
                     icon: const Icon(SHIcons.lightBulbOutline),
                     label: const Text('Lights'),
                     value: room.lights.isOn,
@@ -101,6 +104,7 @@ class _DeviceIconSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = value ? SHColors.selectedColor : SHColors.textColor;
+    print(value);
     return InkWell(
       onTap: () => onTap(!value),
       child: Column(

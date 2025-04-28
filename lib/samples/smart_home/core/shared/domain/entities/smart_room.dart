@@ -48,9 +48,9 @@ class SmartRoom {
 
   static List<SmartRoom> fakeValues = [
     _room,
+    _room.copyWith(id: '4', name: 'BEDROOM', imageUrl: _imagesUrls[4]),
     _room.copyWith(id: '2', name: 'DINING ROOM', imageUrl: _imagesUrls[2]),
     _room.copyWith(id: '3', name: 'KITCHEN', imageUrl: _imagesUrls[3]),
-    _room.copyWith(id: '4', name: 'BEDROOM', imageUrl: _imagesUrls[4]),
     _room.copyWith(id: '5', name: 'BATHROOM', imageUrl: _imagesUrls[1]),
   ];
 }

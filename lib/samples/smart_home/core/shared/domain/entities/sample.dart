@@ -8,7 +8,6 @@ enum Sample {
     heightCard: 250,
   ),
 
-  // Add more samples here
   loginPage._(
     title: 'Login Page',
     description: 'Login Page + Custom Hero + Animations',

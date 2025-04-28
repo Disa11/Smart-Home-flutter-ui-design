@@ -117,6 +117,7 @@ class _PageIndicators extends StatelessWidget {
   }
 }
 
+/// A bottom navigation bar
 class _BottomNavigationBar extends StatelessWidget {
   const _BottomNavigationBar({required this.roomSelectorNotifier});
 

@@ -3,8 +3,9 @@ import 'package:flutter_samples_main/samples/smart_home/core/shared/domain/entit
 import 'package:flutter_samples_main/samples/smart_home/core/shared/presentation/widgets/room_card.dart';
 import 'package:flutter_samples_main/samples/smart_home/features/smart_room/presentation/screens/room_detail_screen.dart';
 import 'package:ui_common/ui_common.dart';
+import 'package:flutter_samples_main/samples/smart_home/core/shared/service/firebase_service.dart';
 
-class SmartRoomsPageView extends StatelessWidget {
+class SmartRoomsPageView extends StatefulWidget {
   const SmartRoomsPageView({
     required this.pageNotifier,
     required this.controller,
@@ -16,6 +17,35 @@ class SmartRoomsPageView extends StatelessWidget {
   final ValueNotifier<int> roomSelectorNotifier;
   final PageController controller;
 
+  @override
+  State<SmartRoomsPageView> createState() => _SmartRoomsPageViewState();
+}
+
+class _SmartRoomsPageViewState extends State<SmartRoomsPageView> {
+  Map<String, dynamic> _data = {}; // Datos recibidos de Firebase como un Map
+  FirebaseService firebaseService =
+      FirebaseService(); // Usar el servicio FirebaseService/ Estado del relé
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+  }
+
+  // Inicializar Firebase y escuchar los cambios en la ruta 'Home/stream'
+  Future<void> _initializeFirebase() async {
+    await firebaseService.initializeFirebase(); // Inicializamos Firebase
+
+    String sensorPath = 'Home/stream/';
+    firebaseService.listenStatus(sensorPath, (status) {
+      setState(() {
+        // Actualizamos los datos recibidos como un Map
+        _data = Map<String, dynamic>.from(status);
+      });
+      print("Datos recibidos de Firebase: $_data");
+    });
+  }
+
   double _getOffsetX(double percent) => percent.isNegative ? 30.0 : -30.0;
 
   Matrix4 _getOutTranslate(double percent, int selected, int index) {
@@ -26,13 +56,13 @@ class SmartRoomsPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<double>(
-      valueListenable: pageNotifier,
+      valueListenable: widget.pageNotifier,
       builder: (_, page, __) {
         return ValueListenableBuilder<int>(
-          valueListenable: roomSelectorNotifier,
+          valueListenable: widget.roomSelectorNotifier,
           builder: (_, selected, ___) {
             return PageView.builder(
-              controller: controller,
+              controller: widget.controller,
               physics:
                   selected != -1
                       ? const NeverScrollableScrollPhysics()
@@ -42,7 +72,22 @@ class SmartRoomsPageView extends StatelessWidget {
               itemBuilder: (__, index) {
                 final percent = page - index;
                 final isSelected = selected == index;
+
+                //Obtencion de los valores de la habitacion
                 final room = SmartRoom.fakeValues[index];
+                final roomUpdate = room.copyWith(
+                  id: room.id,
+                  name: room.name,
+                  temperature:
+                      (_data['temperature'] as num?)?.toDouble() ??
+                      room.temperature,
+                  airHumidity:
+                      (_data['humidity'] as num?)?.toDouble() ??
+                      room.airHumidity,
+
+                  imageUrl: room.imageUrl,
+                );
+
                 return AnimatedContainer(
                   duration: kThemeAnimationDuration,
                   curve: Curves.fastOutSlowIn,
@@ -51,9 +96,9 @@ class SmartRoomsPageView extends StatelessWidget {
                   child: RoomCard(
                     percent: percent,
                     expand: isSelected,
-                    room: room,
-                    onSwipeUp: () => roomSelectorNotifier.value = index,
-                    onSwipeDown: () => roomSelectorNotifier.value = -1,
+                    room: roomUpdate,
+                    onSwipeUp: () => widget.roomSelectorNotifier.value = index,
+                    onSwipeDown: () => widget.roomSelectorNotifier.value = -1,
                     onTap: () async {
                       if (isSelected) {
                         await Navigator.push(
@@ -72,7 +117,7 @@ class SmartRoomsPageView extends StatelessWidget {
                                 ),
                           ),
                         );
-                        roomSelectorNotifier.value = -1;
+                        widget.roomSelectorNotifier.value = -1;
                       }
                     },
                   ),
