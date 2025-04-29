@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -13,11 +15,24 @@ class FirebaseService {
   }
 
   // Escuchar cambios en la referencia
-  void listenStatus(String path, Function(dynamic) onDataChanged) {
+  /*void listenStatus(String path, Function(dynamic) onDataChanged) {
     DatabaseReference databaseRef = _rtdb!.ref(path);
     databaseRef.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
       onDataChanged(data); // Llama a la función pasada cuando cambie el valor
+    });
+  }*/
+
+  // Escuchar cambios en la referencia y devolver un StreamSubscription
+  // para poder cancelar la suscripción si es necesario
+  StreamSubscription<DatabaseEvent> listenStatus(
+    String path,
+    Function(dynamic) onDataChanged,
+  ) {
+    DatabaseReference databaseRef = _rtdb!.ref(path);
+    return databaseRef.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      onDataChanged(data);
     });
   }
 }

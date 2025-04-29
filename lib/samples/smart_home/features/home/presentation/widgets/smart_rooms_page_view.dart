@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_samples_main/samples/smart_home/core/shared/domain/entities/smart_room.dart';
 import 'package:flutter_samples_main/samples/smart_home/core/shared/presentation/widgets/room_card.dart';
@@ -26,7 +29,7 @@ class _SmartRoomsPageViewState extends State<SmartRoomsPageView> {
   FirebaseService firebaseService =
       FirebaseService(); // Usar el servicio FirebaseService/ Estado del relé
 
-  @override
+  /* @override
   void initState() {
     super.initState();
     _initializeFirebase();
@@ -44,6 +47,34 @@ class _SmartRoomsPageViewState extends State<SmartRoomsPageView> {
       });
       print("Datos recibidos de Firebase: $_data");
     });
+  }*/
+
+  StreamSubscription<DatabaseEvent>? _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+  }
+
+  Future<void> _initializeFirebase() async {
+    await firebaseService.initializeFirebase();
+    String sensorPath = 'Home/stream/';
+    _subscription = firebaseService.listenStatus(sensorPath, (status) {
+      if (status is Map) {
+        setState(() {
+          _data = Map<String, dynamic>.from(status);
+        });
+      } else {
+        print('Datos no válidos recibidos: $status');
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 
   double _getOffsetX(double percent) => percent.isNegative ? 30.0 : -30.0;
