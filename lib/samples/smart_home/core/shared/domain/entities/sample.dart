@@ -15,6 +15,15 @@ enum Sample {
     pathImage: 'assets/img/samples/smart_home.gif',
     route: 'login_page',
     heightCard: 250,
+  ),
+
+  CameraPage._(
+    title: 'Camera Page',
+    description: 'Camera Page + Custom Hero + Animations',
+    designer: 'Disa11',
+    pathImage: 'assets/img/samples/smart_home.gif',
+    route: 'camera_page',
+    heightCard: 250,
   );
 
   const Sample._({

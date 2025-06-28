@@ -5,15 +5,16 @@ import 'package:flutter_samples_main/samples/smart_home/features/home/presentati
 import 'package:flutter_samples_main/samples/smart_home/core/shared/presentation/widgets/sh_drawer.dart';
 import 'package:ui_common/ui_common.dart';
 import 'package:flutter_samples_main/samples/smart_home/core/routes/routes.dart';
+import 'package:flutter_mjpeg/flutter_mjpeg.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class CameraScreen extends StatefulWidget {
+  const CameraScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<CameraScreen> createState() => _CameraScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _CameraScreenState extends State<CameraScreen> {
   final PageController controller = PageController(viewportFraction: .8);
   final ValueNotifier<double> pageNotifier = ValueNotifier(0);
   final ValueNotifier<int> roomSelectorNotifier = ValueNotifier(-1);
@@ -46,18 +47,23 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              height24,
-              Text('SELECT A ROOM', style: context.bodyLarge),
               height32,
+              Text('Bedroom camera', style: context.bodyLarge),
+              height16,
               Expanded(
                 child: Stack(
-                  fit: StackFit.expand,
+                  //fit: StackFit.expand,
                   children: [
-                    SmartRoomsPageView(
-                      pageNotifier: pageNotifier,
-                      roomSelectorNotifier: roomSelectorNotifier,
-                      controller: controller,
+                    Mjpeg(
+                      stream: 'http://192.168.0.19/800x600.mjpeg',
+                      isLive: true,
+                      error: (context, error, stack) {
+                        return Center(
+                          child: Text('Error loading MJPEG stream'),
+                        );
+                      },
                     ),
+
                     Positioned.fill(
                       top: null,
                       child: Column(

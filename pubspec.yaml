@@ -33,13 +33,15 @@ dependencies:
   flutter:
     sdk: flutter
   fluttericon: ^2.0.0
-  google_fonts: ^5.1.0
+  google_fonts: ^4.0.4
   firebase_core: ^3.4.0
   firebase_database: ^11.1.1
   fluttertoast: ^8.2.8
   firebase_auth: ^5.3.1
   ui_common:
     git: https://github.com/brocodev/ui_common.git
+  flutter_mjpeg: ^2.0.4
+  
 
 dev_dependencies:
   flutter_test:
