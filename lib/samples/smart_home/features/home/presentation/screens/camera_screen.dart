@@ -152,14 +152,13 @@ class _BottomNavigationBar extends StatelessWidget {
               ),
             ),
         child: BottomNavigationBar(
-          //currentIndex: 0, // <- opcional si quieres controlar la selección
           onTap: (index) {
             if (index == 0) {
               Navigator.pushNamed(context, Sample.smartHome.route);
             } else if (index == 1) {
-              // Aquí puedes manejar la navegación a la pantalla de configuración
+              // manejar la navegación
             } else if (index == 2) {
-              // Manejar la navegación a la pantalla principal
+              // Manejar la navegación a la pantalla camera
               Navigator.pushNamed(context, Sample.CameraPage.route);
             }
           },
@@ -178,7 +177,7 @@ class _BottomNavigationBar extends StatelessWidget {
               ),
               label: 'SETTINGS',
             ),
-            // 👇 Nuevo ítem para la cámara
+            //Nuevo ítem para la cámara
             BottomNavigationBarItem(
               icon: Padding(
                 padding: 8.edgeInsetsA,
